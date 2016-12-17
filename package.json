@@ -6,7 +6,8 @@
   "scripts": {
     "debug": "node --inspect --debug-brk index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint --cache *.js"
+    "lint": "eslint --cache *.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
