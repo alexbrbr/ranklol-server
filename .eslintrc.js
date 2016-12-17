@@ -1,6 +1,7 @@
 module.exports = {
   extends: 'sparkle',
   globals: {
-    require: true
+    require: true,
+    module: true
   }
 };
