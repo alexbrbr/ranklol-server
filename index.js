@@ -18,12 +18,14 @@ app.get('/api/:summonerName', (req, res) => {
       const summonerId = summonerData[summonerName.toLowerCase().replace(/ /g, '')].id;
       return lol.getRankedMatches(summonerId);
     })
+    .catch(error => res.send(error))
     .then(matchesDataResponse => {
       const matchesData = matchesDataResponse.data;
       res.send({
         matchesData
       });
-    });
+    })
+    .catch(error => res.send(error));
 });
 
 app.listen(process.env.PORT || 4000); // eslint-disable-line
