@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const lol = require('./lol');
+const dataGrouping = require('./data-grouping');
 
 const app = express();
 app.use(function (req, res, next) {
@@ -20,9 +21,20 @@ app.get('/api/:summonerName', (req, res) => {
     })
     .catch(error => res.send(error))
     .then(matchesDataResponse => {
-      const matchesData = matchesDataResponse.data;
+      const matchesData = matchesDataResponse.data.matches;
+      const rolesData = dataGrouping.getRoleStats(matchesData);
+      const daysData = dataGrouping.getDateStats(matchesData, 'L');
+      const daysOfWeekData = dataGrouping.getDateStats(matchesData, 'dddd');
+      const hourData = dataGrouping.getDateStats(matchesData, 'H');
+      const monthData = dataGrouping.getDateStats(matchesData, 'MMMM');
+      const weekData = dataGrouping.getDateStats(matchesData, 'W');
       res.send({
-        matchesData
+        rolesData,
+        daysData,
+        daysOfWeekData,
+        hourData,
+        monthData,
+        weekData
       });
     })
     .catch(error => res.send(error));
