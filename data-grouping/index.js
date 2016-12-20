@@ -24,7 +24,7 @@ module.exports = {
     } else {
       rolesStats.troll += 1;
     }
-    return rolesList;
+    return rolesStats;
   }, Object.assign({}, rolesList)),
 
   // ex: 'dddd' for day of week
