@@ -27,13 +27,15 @@ app.get('/api/:summonerName', (req, res) => {
       const hourData = dataGrouping.getDateStats(matchesData, 'H');
       const monthData = dataGrouping.getDateStats(matchesData, 'MMMM');
       const weekData = dataGrouping.getDateStats(matchesData, 'W');
+      const championData = dataGrouping.getChampionStats(matchesData);
       res.send({
         rolesData,
         daysData,
         daysOfWeekData,
         hourData,
         monthData,
-        weekData
+        weekData,
+        championData
       });
     })
     .catch(() => {
