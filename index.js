@@ -21,6 +21,7 @@ app.get('/api/:summonerName', (req, res) => {
     })
     .then(matchesDataResponse => {
       const matchesData = matchesDataResponse.data.matches;
+      const matchIds = matchesData.map(matchData => matchData.matchId);
       res.send({
         rolesData: dataGrouping.getRoleStats(matchesData),
         daysData: dataGrouping.getDateStats(matchesData, 'L'),
@@ -28,7 +29,8 @@ app.get('/api/:summonerName', (req, res) => {
         hourData: dataGrouping.getDateStats(matchesData, 'H'),
         monthData: dataGrouping.getDateStats(matchesData, 'MMMM'),
         weekData: dataGrouping.getDateStats(matchesData, 'W'),
-        championData: dataGrouping.getChampionStats(matchesData)
+        championData: dataGrouping.getChampionStats(matchesData),
+        matchIds
       });
     })
     .catch(() => {
