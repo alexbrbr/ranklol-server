@@ -38,4 +38,12 @@ app.get('/api/:summonerName', (req, res) => {
     });
 });
 
+app.get('/api/match/:matchId', (req, res) => {
+  const matchId = req.params.matchId;
+  return lol.getMatch(matchId)
+  .then(matchResponse => {
+    res.send(matchResponse.data);
+  });
+});
+
 app.listen(process.env.PORT || 4000); // eslint-disable-line

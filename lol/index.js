@@ -45,5 +45,9 @@ module.exports = {
   getStaticVersion() {
     const url = `${staticVersions}`;
     return callRiotAPI(url);
+  },
+  getMatch(matchId) {
+    const url = `${apiBasis}${apiSuffixes.match}${matchId}?api_key=${apiKey}`;
+    return callRiotAPI(url);
   }
 };
