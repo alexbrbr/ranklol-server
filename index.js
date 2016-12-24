@@ -21,21 +21,14 @@ app.get('/api/:summonerName', (req, res) => {
     })
     .then(matchesDataResponse => {
       const matchesData = matchesDataResponse.data.matches;
-      const rolesData = dataGrouping.getRoleStats(matchesData);
-      const daysData = dataGrouping.getDateStats(matchesData, 'L');
-      const daysOfWeekData = dataGrouping.getDateStats(matchesData, 'dddd');
-      const hourData = dataGrouping.getDateStats(matchesData, 'H');
-      const monthData = dataGrouping.getDateStats(matchesData, 'MMMM');
-      const weekData = dataGrouping.getDateStats(matchesData, 'W');
-      const championData = dataGrouping.getChampionStats(matchesData);
       res.send({
-        rolesData,
-        daysData,
-        daysOfWeekData,
-        hourData,
-        monthData,
-        weekData,
-        championData
+        rolesData: dataGrouping.getRoleStats(matchesData),
+        daysData: dataGrouping.getDateStats(matchesData, 'L'),
+        daysOfWeekData: dataGrouping.getDateStats(matchesData, 'dddd'),
+        hourData: dataGrouping.getDateStats(matchesData, 'H'),
+        monthData: dataGrouping.getDateStats(matchesData, 'MMMM'),
+        weekData: dataGrouping.getDateStats(matchesData, 'W'),
+        championData: dataGrouping.getChampionStats(matchesData)
       });
     })
     .catch(() => {
