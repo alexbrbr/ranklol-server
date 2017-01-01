@@ -42,7 +42,7 @@ app.get('/api/match/:matchId', (req, res) => {
   const matchId = req.params.matchId;
   return lol.getMatch(matchId)
   .then(matchResponse => {
-    res.send(matchResponse.data);
+    res.send(dataGrouping.getMatchSummary(matchResponse.data));
   });
 });
 

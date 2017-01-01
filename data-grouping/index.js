@@ -50,7 +50,19 @@ module.exports = {
       championsStats[championInMatch] = 1;
     }
     return championsStats;
-  }, {})
+  }, {}),
+
+  getMatchSummary: match => match.participants.map(participant => {
+    return {
+      championId: participant.championId,
+      winner: participant.stats.winner,
+      summonerName: match.participantIdentities
+        .find(participantIdentity => participantIdentity.participantId === participant.participantId)
+        .player.summonerName,
+      role: participant.timeline.role,
+      lane: participant.timeline.lane
+    };
+  })
 };
 
 const lol = require('../lol');
