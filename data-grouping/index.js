@@ -1,27 +1,27 @@
 const moment = require('moment');
 const rolesList = {
-  carry: 0,
-  support: 0,
-  jungle: 0,
-  soloMid: 0,
-  soloTop: 0,
-  troll: 0
+  'AD Carry': 0,
+  Support: 0,
+  Jungle: 0,
+  'Mid Lane': 0,
+  'Top Lane': 0,
+  Unknown: 0
 };
 
 module.exports = {
   getRoleStats: matchList => matchList.reduce((rolesStats, match) => {
     if (match.role === 'DUO_CARRY') {
-      rolesStats.carry += 1;
+      rolesStats['AD Carry'] += 1;
     } else if (match.role === 'DUO_SUPPORT') {
-      rolesStats.support += 1;
+      rolesStats.Support += 1;
     } else if (match.role === 'NONE' && match.lane === 'JUNGLE') {
-      rolesStats.jungle += 1;
+      rolesStats.Jungle += 1;
     } else if (match.role === 'SOLO' && match.lane === 'MID') {
-      rolesStats.soloMid += 1;
+      rolesStats['Mid Lane'] += 1;
     } else if (match.role === 'SOLO' && match.lane === 'TOP') {
-      rolesStats.soloTop += 1;
+      rolesStats['Top Lane'] += 1;
     } else {
-      rolesStats.troll += 1;
+      rolesStats.Unknown += 1;
     }
     return rolesStats;
   }, Object.assign({}, rolesList)),
