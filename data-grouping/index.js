@@ -8,6 +8,17 @@ const rolesList = {
   Unknown: 0
 };
 
+const lol = require('../lol');
+const staticUrlBasis = 'http://ddragon.leagueoflegends.com/cdn/';
+
+let champions = null;
+let staticVersion;
+
+
+function getChampionNameById(championId) {
+  return champions.find(champion => champion.id === championId).name;
+}
+
 module.exports = {
   getRoleStats: matchList => matchList.reduce((rolesStats, match) => {
     if (match.role === 'DUO_CARRY') {
@@ -62,30 +73,24 @@ module.exports = {
       role: participant.timeline.role,
       lane: participant.timeline.lane
     };
-  })
+  }),
+
+  getChampions: () => champions ?
+    Promise.resolve(champions) :
+    lol.getStaticVersion()
+    .then(staticVersionData => {
+      staticVersion = staticVersionData.data[0];
+      return lol.getChampionsListImage();
+    })
+    .then(championsResponse => {
+      const championsData = championsResponse.data.data;
+      champions = Object
+        .keys(championsData)
+        .map(championName => ({
+          id: championsData[championName].id,
+          name: championsData[championName].name,
+          image: `${staticUrlBasis}${staticVersion}/img/champion/${championsData[championName].image.full}`
+        }));
+      return champions;
+    })
 };
-
-const lol = require('../lol');
-const staticUrlBasis = 'http://ddragon.leagueoflegends.com/cdn/';
-
-let champions = [];
-let staticVersion;
-lol.getStaticVersion()
-  .then(staticVersionData => {
-    staticVersion = staticVersionData[0];
-    return lol.getChampionsListImage();
-  })
-  .then(championsResponse => {
-    const championsData = championsResponse.data.data;
-    champions = Object
-      .keys(championsData)
-      .map(championName => ({
-        id: championsData[championName].id,
-        name: championsData[championName].name,
-        image: `${staticUrlBasis}${staticVersion}/img/champion/${championsData[championName].image.full}`
-      }));
-  });
-
-function getChampionNameById(championId) {
-  return champions.find(champion => champion.id === championId).name;
-}

@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/api/:summonerName', (req, res) => {
+app.get('/api/summoner/:summonerName', (req, res) => {
   const summonerName = req.params.summonerName;
   lol.getSummonerByName(summonerName)
     .then(summonerDataResponse => {
@@ -45,6 +45,10 @@ app.get('/api/match/:matchId', (req, res) => {
   .then(matchResponse => {
     res.send(dataGrouping.getMatchSummary(matchResponse.data));
   });
+});
+app.get('/api/champions', (req, res) => {
+  dataGrouping.getChampions()
+    .then(champions => res.send(champions));
 });
 
 app.listen(process.env.PORT || 4000); // eslint-disable-line
