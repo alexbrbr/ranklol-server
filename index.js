@@ -34,8 +34,21 @@ app.get('/api/summoner/:summonerName', (req, res) => {
         matchIds
       });
     })
-    .catch(() => {
-      res.status(500).send('Something broke!');
+    .catch(err => {
+      console.log(err) // eslint-disable-line
+      if (err.response.status === 503) {
+        res.status(503).send({
+          errMessage: 'Riot server unavailable'
+        });
+      } else if (err.response.status === 404) {
+        res.status(404).send({
+          errMessage: 'Summoner unknown'
+        });
+      } else {
+        res.status(500).send({
+          errMessage: 'Unknown error from ranklol server'
+        });
+      }
     });
 });
 
