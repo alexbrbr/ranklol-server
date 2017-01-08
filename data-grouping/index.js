@@ -19,6 +19,28 @@ function getChampionNameById(championId) {
   return champions.find(champion => champion.id === championId).name;
 }
 
+function getChampions() {
+  return champions ?
+    Promise.resolve(champions) :
+    lol.getStaticVersion()
+    .then(staticVersionData => {
+      staticVersion = staticVersionData.data[0];
+      return lol.getChampionsListImage();
+    })
+    .then(championsResponse => {
+      const championsData = championsResponse.data.data;
+      champions = Object
+        .keys(championsData)
+        .map(championName => ({
+          id: championsData[championName].id,
+          name: championsData[championName].name,
+          image: `${staticUrlBasis}${staticVersion}/img/champion/${championsData[championName].image.full}`
+        }));
+      return champions;
+    })
+}
+getChampions();
+
 module.exports = {
   getRoleStats: matchList => matchList.reduce((rolesStats, match) => {
     if (match.role === 'DUO_CARRY') {
@@ -75,22 +97,5 @@ module.exports = {
     };
   }),
 
-  getChampions: () => champions ?
-    Promise.resolve(champions) :
-    lol.getStaticVersion()
-    .then(staticVersionData => {
-      staticVersion = staticVersionData.data[0];
-      return lol.getChampionsListImage();
-    })
-    .then(championsResponse => {
-      const championsData = championsResponse.data.data;
-      champions = Object
-        .keys(championsData)
-        .map(championName => ({
-          id: championsData[championName].id,
-          name: championsData[championName].name,
-          image: `${staticUrlBasis}${staticVersion}/img/champion/${championsData[championName].image.full}`
-        }));
-      return champions;
-    })
+  getChampions
 };
