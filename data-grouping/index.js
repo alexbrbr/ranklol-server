@@ -16,10 +16,8 @@ let staticVersion;
 
 
 function getChampionNameById(championId) {
-  return getChampions()
-    .then(champions => champions
-      .find(champion => champion.id === championId).name
-    );
+  return champions && champions
+    .find(champion => champion.id === championId).name;
 }
 
 function getChampions() {
