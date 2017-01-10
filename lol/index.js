@@ -34,7 +34,7 @@ module.exports = {
     return callRiotAPI(url);
   },
   getRankedMatches(summonerId) {
-    const queryParams = 'rankedQueues=RANKED_FLEX_SR&seasons=SEASON2016&';
+    const queryParams = 'rankedQueues=RANKED_SOLO_5x5,RANKED_FLEX_SR&seasons=SEASON2016,PRESEASON2017,SEASON2017&';
     const url = `${apiBasis}${apiSuffixes.matchListBySummoner}${summonerId}?${queryParams}api_key=${apiKey}`;
     return callRiotAPI(url);
   },

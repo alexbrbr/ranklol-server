@@ -6,8 +6,11 @@ const dataGrouping = require('./data-grouping');
 
 const app = express();
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.header('Access-Control-Allow-Origin', 'http://ranklol.com');
+  if (process.env.NODE_ENV === 'dev') {  // eslint-disable-line
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+  } else {
+    res.header('Access-Control-Allow-Origin', 'http://ranklol.com');
+  }
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
@@ -22,8 +25,11 @@ app.get('/api/summoner/:summonerName', (req, res) => {
     })
     .then(matchesDataResponse => {
       const matchesData = matchesDataResponse.data.matches;
-      const matchIds = matchesData.map(matchData => matchData.matchId);
-      res.send({
+      const matchIds = matchesData && matchesData.map(matchData => matchData.matchId);
+      if (!matchesData) {
+        res.status(200).send({});
+      }
+      res.status(200).send({
         rolesData: dataGrouping.getRoleStats(matchesData),
         daysData: dataGrouping.getDateStats(matchesData, 'L'),
         daysOfWeekData: dataGrouping.getDateStats(matchesData, 'dddd'),
