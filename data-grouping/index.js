@@ -15,8 +15,8 @@ let champions = null;
 let staticVersion;
 
 
-function getChampionNameById(championId) {
-  return champions && champions
+function getChampionNameById(champions, championId) {
+  return champions
     .find(champion => champion.id === championId).name;
 }
 
@@ -77,11 +77,10 @@ module.exports = {
   }, {}),
 
   getChampionStats: matchList => matchList.reduce((championsStats, match) => {
-    const championInMatch = getChampionNameById(match.champion);
-    if (championsStats[championInMatch]) {
-      championsStats[championInMatch] += 1;
+    if (championsStats[match.champion]) {
+      championsStats[match.champion] += 1;
     } else {
-      championsStats[championInMatch] = 1;
+      championsStats[match.champion] = 1;
     }
     return championsStats;
   }, {}),
