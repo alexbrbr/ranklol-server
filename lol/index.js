@@ -3,8 +3,8 @@ const apiKey = process.env.RIOT_KEY; //eslint-disable-line
 const apiSuffixes = require('./api-suffixes');
 
 const RateLimiter = require('limiter').RateLimiter;
-const limiter10s = new RateLimiter(10, 10 * 1000);
-const limiter10min = new RateLimiter(500, 10 * 60 * 1000);
+const limiter10s = new RateLimiter(3000, 10 * 1000);
+const limiter10min = new RateLimiter(180000, 10 * 60 * 1000);
 
 
 const region = 'euw';
