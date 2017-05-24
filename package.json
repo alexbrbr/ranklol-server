@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "debug": "node --inspect --debug-brk index.js",
-    "dev": "nodemon index.js",
+    "dev": "export NODE_ENV=dev; nodemon index.js",
     "lint": "eslint --cache *.js",
     "start": "node index.js"
   },

@@ -34,7 +34,7 @@ module.exports = {
     return callRiotAPI(url);
   },
   getRankedMatches(summonerId) {
-    const queryParams = 'rankedQueues=TEAM_BUILDER_RANKED_SOLO&beginTime=1483225200000&endTime=1487952635923&';
+    const queryParams = 'beginTime=1483225200000&';
     const url = `${apiBasis}${apiSuffixes.matchListBySummoner}${summonerId}?${queryParams}api_key=${apiKey}`;
     return callRiotAPI(url);
   },

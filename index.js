@@ -70,4 +70,6 @@ app.get('/api/champions', (req, res) => {
     .then(champions => res.send(champions));
 });
 
-app.listen(process.env.PORT || 4000); // eslint-disable-line
+const port = process.env.PORT || 4000;// eslint-disable-line
+app.listen(port);
+console.log(`App listening on ${port}`);
