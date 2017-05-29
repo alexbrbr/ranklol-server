@@ -7,8 +7,14 @@ const limiter10s = new RateLimiter(3000, 10 * 1000);
 const limiter10min = new RateLimiter(180000, 10 * 60 * 1000);
 
 
-const region = 'euw';
-const apiBasis = `https://${region}.api.pvp.net/api/lol/${region}/`;
+let region = 'euw';
+function apiBasis(callRegion = region) {
+  region = callRegion === region ?
+   region :
+   callRegion;
+  return `https://${region}.api.pvp.net/api/lol/${region}/`;
+}
+
 const apiStaticBasis = `https://global.api.pvp.net/api/lol/static-data/${region}/`;
 const staticVersions = 'https://ddragon.leagueoflegends.com/api/versions.json';
 
@@ -29,13 +35,13 @@ function callRiotAPI(url) {
 }
 
 module.exports = {
-  getSummonerByName(summonerName) {
-    const url = `${apiBasis}${apiSuffixes.summonerByName}${summonerName}?api_key=${apiKey}`;
+  getSummonerByName(summonerName, summonerRegion) {
+    const url = `${apiBasis(summonerRegion)}${apiSuffixes.summonerByName}${summonerName}?api_key=${apiKey}`;
     return callRiotAPI(url);
   },
   getRankedMatches(summonerId) {
     const queryParams = 'beginTime=1483225200000&';
-    const url = `${apiBasis}${apiSuffixes.matchListBySummoner}${summonerId}?${queryParams}api_key=${apiKey}`;
+    const url = `${apiBasis()}${apiSuffixes.matchListBySummoner}${summonerId}?${queryParams}api_key=${apiKey}`;
     return callRiotAPI(url);
   },
   getChampionsListImage() {
@@ -47,7 +53,7 @@ module.exports = {
     return callRiotAPI(url);
   },
   getMatch(matchId) {
-    const url = `${apiBasis}${apiSuffixes.match}${matchId}?api_key=${apiKey}`;
+    const url = `${apiBasis()}${apiSuffixes.match}${matchId}?api_key=${apiKey}`;
     return callRiotAPI(url);
   }
 };

@@ -17,7 +17,8 @@ app.use(function (req, res, next) {
 
 app.get('/api/summoner/:summonerName', (req, res) => {
   const summonerName = req.params.summonerName;
-  lol.getSummonerByName(summonerName)
+  const region = req.query.region;
+  lol.getSummonerByName(summonerName, region)
     .then(summonerDataResponse => {
       const summonerData = summonerDataResponse.data;
       const summonerId = summonerData[summonerName.toLowerCase().replace(/ /g, '')].id;
@@ -72,4 +73,3 @@ app.get('/api/champions', (req, res) => {
 
 const port = process.env.PORT || 4000;// eslint-disable-line
 app.listen(port);
-console.log(`App listening on ${port}`);
